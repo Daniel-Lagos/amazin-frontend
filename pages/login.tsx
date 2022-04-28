@@ -1,6 +1,8 @@
 import { NextPage } from 'next';
 import { Layout } from '../components/layouts';
-import { Box, Grid, TextField, Typography } from '@mui/material';
+import {
+  Box, Button, Grid, TextField, Typography
+} from '@mui/material';
 
 
 const LoginPage: NextPage = () => {
@@ -43,18 +45,22 @@ const LoginPage: NextPage = () => {
               fullWidth
             />
           </Grid>
-          <Grid item xs={12}>
-            <TextField
-              type={'text'}
-              placeholder={'input'}
-              fullWidth
-            />
+          <Grid item xs={6}>
+            <Button fullWidth variant={'contained'}>
+              change method
+            </Button>
           </Grid>
+          <Grid item xs={6}>
+            <Button fullWidth variant={'contained'} >
+              Create Acount
+            </Button>
+          </Grid>
+
         </Grid>
 
       </Box>
     </Layout>
   );
-};7
+};
 
 export default LoginPage;
