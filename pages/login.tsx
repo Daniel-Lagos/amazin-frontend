@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 import { Layout } from '../components/layouts';
-import { Box, Typography } from '@mui/material';
+import { Box, Grid, TextField, Typography } from '@mui/material';
 
 
 const LoginPage: NextPage = () => {
@@ -21,15 +21,40 @@ const LoginPage: NextPage = () => {
           Already A member? Log In
         </Typography>
 
-        <Box>
-          <Typography>
-            form
-          </Typography>
-        </Box>
+        <Grid container width={'50%'} spacing={4}>
+          <Grid item xs={6}>
+            <TextField
+              type={'text'}
+              placeholder={'input'}
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              type={'text'}
+              placeholder={'input'}
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              type={'text'}
+              placeholder={'input'}
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              type={'text'}
+              placeholder={'input'}
+              fullWidth
+            />
+          </Grid>
+        </Grid>
 
       </Box>
     </Layout>
   );
-};
+};7
 
 export default LoginPage;
