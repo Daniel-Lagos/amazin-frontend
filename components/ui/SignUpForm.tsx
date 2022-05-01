@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from 'react';
+import Link from 'next/link';
 import {
   Alert, AlertColor, Button, Grid, Snackbar, TextField
 } from '@mui/material';
@@ -45,9 +46,8 @@ export const SignUpForm = () => {
     });
     const data = await resp.json();
     if (data.success) {
-      localStorage.setItem('token', data.token);
       setSnackBarStatus('success');
-      router.push('/');
+      router.push('/sign-in');
     } else {
       setSnackBarStatus('error');
       setMessage(data.message);
@@ -65,6 +65,7 @@ export const SignUpForm = () => {
 
   const validForm = (): boolean => {
     Object.keys(form).forEach(value => {
+      // @ts-ignore
       if (form[value].length === 0) {
         isValidForm = false;
       }
@@ -121,14 +122,16 @@ export const SignUpForm = () => {
         />
       </Grid>
       <Grid item xs={6}>
-        <Button
-          fullWidth
-          variant={'contained'}
-          style={{ borderRadius: '50px', padding: '12px 0' }}
-          onClick={handleClick}
-        >
-          change method
-        </Button>
+        <Link href={'/sign-in'} passHref>
+          <Button
+            fullWidth
+            variant={'contained'}
+            style={{ borderRadius: '50px', padding: '12px 0' }}
+            onClick={handleClick}
+          >
+            Log in
+          </Button>
+        </Link>
       </Grid>
       <Grid item xs={6}>
         <Button
@@ -138,7 +141,7 @@ export const SignUpForm = () => {
           onClick={registerUser}
           disabled={validForm()}
         >
-          Create Acount
+          Create Account
         </Button>
       </Grid>
       <Snackbar

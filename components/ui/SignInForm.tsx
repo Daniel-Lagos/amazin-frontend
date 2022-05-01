@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from 'react';
+import Link from 'next/link'
 import {
   Alert, AlertColor, Button, Grid, Snackbar, TextField
 } from '@mui/material';
@@ -32,7 +33,7 @@ export const SignInForm = () => {
 
   };
 
-  const registerUser = async () => {
+  const loginUser = async () => {
 
     const resp = await fetch(`${process.env.BACKEND_URL}sign-in`, {
       headers: {
@@ -53,16 +54,13 @@ export const SignInForm = () => {
     setOpen(true);
   };
 
-  const handleClick = () => {
-    setOpen(true);
-  };
-
   const handleClose = () => {
     setOpen(false);
   };
 
   const validForm = (): boolean => {
     Object.keys(form).forEach(value => {
+      // @ts-ignore
       if (form[value].length === 0) {
         isValidForm = false;
       }
@@ -72,6 +70,21 @@ export const SignInForm = () => {
 
   return (
     <Grid container width={'50%'} spacing={4} pt={4}>
+      <Grid item xs={12}>
+        <TextField
+          type={'text'}
+          placeholder={'Email'}
+          fullWidth
+          helperText={form.email.length <= 0 && touched && 'Email is Invalid'}
+          error={form.email.length <= 0 && touched}
+          name={'email'}
+          InputProps={{
+            endAdornment: <EmailOutlinedIcon/>
+          }}
+          onBlur={() => setTouched(true)}
+          onChange={handlerForm}
+        />
+      </Grid>
       <Grid item xs={12}>
         <TextField
           type={'text'}
@@ -88,40 +101,26 @@ export const SignInForm = () => {
           onChange={handlerForm}
         />
       </Grid>
-      <Grid item xs={12}>
-        <TextField
-          type={'text'}
-          placeholder={'Email'}
-          fullWidth
-          helperText={form.email.length <= 0 && touched && 'Email is Invalid'}
-          error={form.email.length <= 0 && touched}
-          name={'email'}
-          InputProps={{
-            endAdornment: <EmailOutlinedIcon/>
-          }}
-          onBlur={() => setTouched(true)}
-          onChange={handlerForm}
-        />
-      </Grid>
       <Grid item xs={6}>
+        <Link href={'/sign-up'} passHref>
         <Button
           fullWidth
           variant={'contained'}
           style={{ borderRadius: '50px', padding: '12px 0' }}
-          onClick={handleClick}
         >
-          change method
+          Sign up
         </Button>
+        </Link>
       </Grid>
       <Grid item xs={6}>
         <Button
           fullWidth
           variant={'contained'}
           style={{ borderRadius: '50px', padding: '12px 0' }}
-          onClick={registerUser}
+          onClick={loginUser}
           disabled={validForm()}
         >
-          Create Acount
+          Log in
         </Button>
       </Grid>
       <Snackbar
