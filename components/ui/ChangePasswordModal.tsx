@@ -1,7 +1,7 @@
 import { ChangeEvent, Dispatch, FC, SetStateAction, useState } from 'react';
 import {
   Button,
-  Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider,
+  Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
   TextField
 } from '@mui/material';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 
 interface Props {
   open: boolean,
+  email: string,
   setOpen: Dispatch<SetStateAction<boolean>>
 }
 
@@ -17,7 +18,7 @@ interface formProps {
   confirmPassword: string,
 }
 
-export const ChangePasswordModal: FC<Props> = ({ open, setOpen }) => {
+export const ChangePasswordModal: FC<Props> = ({ open, setOpen,email }) => {
 
   const [touched, setTouched] = useState(false);
   const [form, setForm] = useState<formProps>({
@@ -32,12 +33,12 @@ export const ChangePasswordModal: FC<Props> = ({ open, setOpen }) => {
   };
 
   const changePassword = async () => {
-    const resp = await fetch(`${process.env.BACKEND_URL}sign-in`, {
+    const resp = await fetch(`${process.env.BACKEND_URL}auth/change-pass/${email}`, {
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(form),
-      method: 'POST'
+      method: 'PATCH'
     });
     const data = await resp.json();
     if (data.success) {

@@ -37,7 +37,7 @@ export const SignUpForm = () => {
 
   const registerUser = async () => {
 
-    const resp = await fetch(`${process.env.BACKEND_URL}sign-up`, {
+    const resp = await fetch(`${process.env.BACKEND_URL}auth/sign-up`, {
       headers: {
         'Content-Type': 'application/json'
       },

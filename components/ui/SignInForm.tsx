@@ -36,7 +36,7 @@ export const SignInForm = () => {
 
   const loginUser = async () => {
 
-    const resp = await fetch(`${process.env.BACKEND_URL}sign-in`, {
+    const resp = await fetch(`${process.env.BACKEND_URL}auth/sign-in`, {
       headers: {
         'Content-Type': 'application/json'
       },
