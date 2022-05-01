@@ -4,7 +4,7 @@ import {
   Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider,
   TextField
 } from '@mui/material';
-import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { useRouter } from 'next/router';
 
 interface Props {
@@ -71,7 +71,7 @@ export const ChangePasswordModal: FC<Props> = ({ open, setOpen }) => {
           error={form.password.length <= 0 && touched}
           name={'password'}
           InputProps={{
-            endAdornment: <BadgeOutlinedIcon/>
+            endAdornment: <VisibilityOutlinedIcon/>
           }}
           onBlur={() => setTouched(true)}
           onChange={handlerPassword}
@@ -87,7 +87,7 @@ export const ChangePasswordModal: FC<Props> = ({ open, setOpen }) => {
           error={form.password !== form.confirmPassword && touched}
           name={'confirmPassword'}
           InputProps={{
-            endAdornment: <BadgeOutlinedIcon/>
+            endAdornment: <VisibilityOutlinedIcon/>
           }}
           onBlur={() => setTouched(true)}
           onChange={handlerPassword}

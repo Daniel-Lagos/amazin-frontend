@@ -4,7 +4,7 @@ import {
   Alert, AlertColor, Button, Grid, Snackbar, TextField
 } from '@mui/material';
 import { useRouter } from 'next/router';
-import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import { ChangePasswordModal } from './ChangePasswordModal';
 
@@ -77,7 +77,7 @@ export const SignInForm = () => {
     <Grid container width={'50%'} spacing={4} pt={4}>
       <Grid item xs={12}>
         <TextField
-          // autoComplete={'off'}
+          autoComplete={'off'}
           type={'text'}
           placeholder={'Email'}
           fullWidth
@@ -93,8 +93,8 @@ export const SignInForm = () => {
       </Grid>
       <Grid item xs={12}>
         <TextField
-          // type={'password'}
-          type={'text'}
+          type={'password'}
+          // type={'text'}
           placeholder={'Password'}
           fullWidth
           helperText={form.password.length <= 0 && touched &&
@@ -102,7 +102,7 @@ export const SignInForm = () => {
           error={form.password.length <= 0 && touched}
           name={'password'}
           InputProps={{
-            endAdornment: <BadgeOutlinedIcon/>
+            endAdornment: <VisibilityOutlinedIcon/>
           }}
           onBlur={() => setTouched(true)}
           onChange={handlerForm}
