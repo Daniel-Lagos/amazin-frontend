@@ -1,11 +1,12 @@
 import { ChangeEvent, useState } from 'react';
-import Link from 'next/link'
+import Link from 'next/link';
 import {
   Alert, AlertColor, Button, Grid, Snackbar, TextField
 } from '@mui/material';
 import { useRouter } from 'next/router';
 import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import { ChangePasswordModal } from './ChangePasswordModal';
 
 interface formProps {
   password: string,
@@ -21,6 +22,7 @@ export const SignInForm = () => {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const [touched, setTouched] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   let isValidForm = true;
   const router = useRouter();
 
@@ -30,7 +32,6 @@ export const SignInForm = () => {
       ...form,
       [event.target.name]: event.target.value
     });
-
   };
 
   const loginUser = async () => {
@@ -44,9 +45,13 @@ export const SignInForm = () => {
     });
     const data = await resp.json();
     if (data.success) {
+      if (data.user.fisrtLogin) {
+        setShowModal(true);
+      } else {
+        setSnackBarStatus('success');
+        router.push('/');
+      }
       localStorage.setItem('token', data.token);
-      setSnackBarStatus('success');
-      router.push('/');
     } else {
       setSnackBarStatus('error');
       setMessage(data.message);
@@ -72,6 +77,7 @@ export const SignInForm = () => {
     <Grid container width={'50%'} spacing={4} pt={4}>
       <Grid item xs={12}>
         <TextField
+          // autoComplete={'off'}
           type={'text'}
           placeholder={'Email'}
           fullWidth
@@ -87,6 +93,7 @@ export const SignInForm = () => {
       </Grid>
       <Grid item xs={12}>
         <TextField
+          // type={'password'}
           type={'text'}
           placeholder={'Password'}
           fullWidth
@@ -103,13 +110,13 @@ export const SignInForm = () => {
       </Grid>
       <Grid item xs={6}>
         <Link href={'/sign-up'} passHref>
-        <Button
-          fullWidth
-          variant={'contained'}
-          style={{ borderRadius: '50px', padding: '12px 0' }}
-        >
-          Sign up
-        </Button>
+          <Button
+            fullWidth
+            variant={'contained'}
+            style={{ borderRadius: '50px', padding: '12px 0' }}
+          >
+            Sign up
+          </Button>
         </Link>
       </Grid>
       <Grid item xs={6}>
@@ -135,6 +142,7 @@ export const SignInForm = () => {
           {message}
         </Alert>
       </Snackbar>
+      <ChangePasswordModal open={showModal} setOpen={setShowModal}/>
     </Grid>
   );
 };
