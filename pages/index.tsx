@@ -3,8 +3,22 @@ import Head from 'next/head';
 import Image from 'next/image';
 import styles from '../styles/Home.module.css';
 import { Layout } from '../components/layouts';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 const Home: NextPage = () => {
+  const router = useRouter();
+  const [isLoggedIn, setLogin] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("token") !== undefined) {
+      setLogin(true);
+    } else {
+      router.push('/sign-in')
+      setLogin(false);
+    }
+  }, [isLoggedIn, router]);
+
   return (
     <Layout title={'home'}>
       <div className={styles.container}>
