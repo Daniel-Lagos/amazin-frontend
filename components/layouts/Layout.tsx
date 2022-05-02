@@ -4,6 +4,7 @@ import { Navbar } from '../ui';
 
 interface LayoutProps {
   title: string;
+  children: JSX.Element[] | JSX.Element
 }
 
 export const Layout: FC<LayoutProps> = ({ children }) => {
