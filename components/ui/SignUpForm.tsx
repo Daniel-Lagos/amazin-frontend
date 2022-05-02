@@ -6,6 +6,7 @@ import {
 import { useRouter } from 'next/router';
 import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import { emailRegExp as isValidEmail } from '../../utils';
 
 interface formProps {
   name: string,
@@ -111,8 +112,9 @@ export const SignUpForm = () => {
           type={'text'}
           placeholder={'Email'}
           fullWidth
-          helperText={form.email.length <= 0 && touched && 'Email is Invalid'}
-          error={form.email.length <= 0 && touched}
+          helperText={!isValidEmail.test(form.email) && touched &&
+          'Email is Invalid'}
+          error={!isValidEmail.test(form.email) && touched}
           name={'email'}
           InputProps={{
             endAdornment: <EmailOutlinedIcon/>

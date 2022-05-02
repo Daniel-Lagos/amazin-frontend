@@ -6,6 +6,7 @@ import {
 } from '@mui/material';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { useRouter } from 'next/router';
+import { passwordRegExp as isValidPassword } from '../../utils';
 
 interface Props {
   open: boolean,
@@ -18,7 +19,7 @@ interface formProps {
   confirmPassword: string,
 }
 
-export const ChangePasswordModal: FC<Props> = ({ open, setOpen,email }) => {
+export const ChangePasswordModal: FC<Props> = ({ open, setOpen, email }) => {
 
   const [touched, setTouched] = useState(false);
   const [form, setForm] = useState<formProps>({
@@ -29,17 +30,18 @@ export const ChangePasswordModal: FC<Props> = ({ open, setOpen,email }) => {
 
   const handleClose = () => {
     setOpen(false);
-    setTouched(false)
+    setTouched(false);
   };
 
   const changePassword = async () => {
-    const resp = await fetch(`${process.env.BACKEND_URL}auth/change-pass/${email}`, {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(form),
-      method: 'PATCH'
-    });
+    const resp = await fetch(
+      `${process.env.BACKEND_URL}auth/change-pass/${email}`, {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ newPassword: form.password }),
+        method: 'PATCH'
+      });
     const data = await resp.json();
     if (data.success) {
       localStorage.setItem('token', data.token);
@@ -67,9 +69,9 @@ export const ChangePasswordModal: FC<Props> = ({ open, setOpen,email }) => {
           type={'password'}
           placeholder={'Password'}
           fullWidth
-          helperText={form.password.length <= 0 && touched &&
-          'Password is required'}
-          error={form.password.length <= 0 && touched}
+          helperText={!isValidPassword.test(form.password) && touched &&
+          'Password is not secure'}
+          error={!isValidPassword.test(form.password) && touched}
           name={'password'}
           InputProps={{
             endAdornment: <VisibilityOutlinedIcon/>
@@ -77,7 +79,6 @@ export const ChangePasswordModal: FC<Props> = ({ open, setOpen,email }) => {
           onBlur={() => setTouched(true)}
           onChange={handlerPassword}
         />
-
         <TextField
           margin={'normal'}
           type={'password'}
@@ -101,7 +102,7 @@ export const ChangePasswordModal: FC<Props> = ({ open, setOpen,email }) => {
         </Button>
         <Button
           disabled={(form.password !== form.confirmPassword ||
-            form.password.length === 0)}
+            !isValidPassword.test(form.password))}
           onClick={changePassword}>
           change Password
         </Button>

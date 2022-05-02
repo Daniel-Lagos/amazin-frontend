@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import { ChangePasswordModal } from './ChangePasswordModal';
+import { emailRegExp as isValidEmail } from '../../utils';
 
 interface formProps {
   password: string,
@@ -81,8 +82,9 @@ export const SignInForm = () => {
           type={'text'}
           placeholder={'Email'}
           fullWidth
-          helperText={form.email.length <= 0 && touched && 'Email is Invalid'}
-          error={form.email.length <= 0 && touched}
+          helperText={touched && !isValidEmail.test(form.email) &&
+          'Email is Invalid'}
+          error={touched && !isValidEmail.test(form.email)}
           name={'email'}
           InputProps={{
             endAdornment: <EmailOutlinedIcon/>
@@ -142,7 +144,8 @@ export const SignInForm = () => {
           {message}
         </Alert>
       </Snackbar>
-      <ChangePasswordModal open={showModal} setOpen={setShowModal}/>
+      <ChangePasswordModal open={showModal} setOpen={setShowModal}
+                           email={form.email}/>
     </Grid>
   );
 };
