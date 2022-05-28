@@ -46,17 +46,17 @@ export const SignInForm = () => {
     });
     const data = await resp.json();
     if (data.success) {
-      if (data.user.fisrtLogin) {
+      if (data?.user?.firstLogin) {
         setShowModal(true);
       } else {
         setSnackBarStatus('success');
         router.push('/');
       }
-      localStorage.setItem('token', data.token);
     } else {
       setSnackBarStatus('error');
       setMessage(data.message);
     }
+    localStorage.setItem('token', data.token);
     setOpen(true);
   };
 
