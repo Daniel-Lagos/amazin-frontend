@@ -15,7 +15,7 @@ const Home: NextPage = () => {
     const validSession = async () => {
       const resp = await fetch(`${process.env.BACKEND_URL}auth/renew`, {
         headers: {
-          'Authorization': `x-token ${localStorage.getItem('token')}`,
+          'Authorization': `x-token ${sessionStorage.getItem('token')}`,
         }
       });
       const data = await resp.json();

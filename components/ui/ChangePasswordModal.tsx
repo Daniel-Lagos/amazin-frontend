@@ -44,7 +44,7 @@ export const ChangePasswordModal: FC<Props> = ({ open, setOpen, email }) => {
       });
     const data = await resp.json();
     if (data.success) {
-      localStorage.setItem('token', data.token);
+      sessionStorage.setItem('token', data.token);
       router.push('/');
     }
   };

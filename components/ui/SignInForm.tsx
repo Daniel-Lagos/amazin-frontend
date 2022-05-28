@@ -56,7 +56,7 @@ export const SignInForm = () => {
       setSnackBarStatus('error');
       setMessage(data.message);
     }
-    localStorage.setItem('token', data.token);
+    sessionStorage.setItem('token', data.token);
     setOpen(true);
   };
 
