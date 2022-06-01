@@ -28,9 +28,6 @@ const Home: NextPage = () => {
       }
     };
     validSession().catch(e => console.log(e));
-    if (!isLogin) {
-      router.push('/sign-in');
-    }
   }, [isLogin, router, setIsLogin]);
 
   return (
