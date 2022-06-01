@@ -5,29 +5,33 @@ import styles from '../styles/Home.module.css';
 import { Layout } from '../components/layouts';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { useSessionContext } from '../context/SessionProvider';
 
 const Home: NextPage = () => {
   const router = useRouter();
-  const [isLoggedIn, setLogin] = useState(false);
+  const { isLogin, setIsLogin } = useSessionContext();
 
   useEffect(() => {
 
     const validSession = async () => {
       const resp = await fetch(`${process.env.BACKEND_URL}auth/renew`, {
         headers: {
-          'Authorization': `x-token ${sessionStorage.getItem('token')}`,
+          'x-token': `${sessionStorage.getItem('token')}`,
         }
       });
       const data = await resp.json();
+      console.log(data)
       if (data.success) {
-        setLogin(true);
+        setIsLogin(false);
       } else {
-        await router.push('/sign-in');
-        setLogin(false);
+        setIsLogin(true);
       }
     };
     validSession().catch(e => console.log(e));
-  }, [isLoggedIn, router]);
+    if (!isLogin) {
+      router.push('/sign-in');
+    }
+  }, [isLogin, router, setIsLogin]);
 
   return (
     <Layout title={'home'}>

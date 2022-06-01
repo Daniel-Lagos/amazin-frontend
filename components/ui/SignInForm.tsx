@@ -8,6 +8,7 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import { ChangePasswordModal } from './ChangePasswordModal';
 import { emailRegExp as isValidEmail } from '../../utils';
+import { useSessionContext } from '../../context/SessionProvider';
 
 interface formProps {
   password: string,
@@ -24,8 +25,9 @@ export const SignInForm = () => {
   const [message, setMessage] = useState('');
   const [touched, setTouched] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  let isValidForm = true;
   const router = useRouter();
+  const { setIsLogin } = useSessionContext();
+  let isValidForm = true;
 
   const handlerForm = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     event.preventDefault();
@@ -46,6 +48,7 @@ export const SignInForm = () => {
     });
     const data = await resp.json();
     if (data.success) {
+      setIsLogin(true);
       if (data?.user?.firstLogin) {
         setShowModal(true);
       } else {
