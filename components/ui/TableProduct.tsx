@@ -21,13 +21,17 @@ export const TableProduct = () => {
     const [products, setProducts] = useState<AppState['product']>([]);
 
     useEffect(() => {
-        fetch(`${process.env.BACKEND_URL}product/products`)
+        getData()
+    }, [])
+
+    const getData = async () => {
+        await fetch(`${process.env.BACKEND_URL}product/products`)
             .then(res => res.json())
             .then(data => {
                 const { product } = data;
                 setProducts(product)
             });
-    }, [])
+    }
 
     return (
         <section className="py-1 bg-blueGray-50">
