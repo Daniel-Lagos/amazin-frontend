@@ -7,11 +7,11 @@ interface LayoutProps {
   children: JSX.Element[] | JSX.Element
 }
 
-export const Layout: FC<LayoutProps> = ({ children }) => {
+export const Layout: FC<LayoutProps> = ({ children,title }) => {
   return (
     <>
       <Head>
-        <title>{children}</title>
+        <title>{title}</title>
       </Head>
       <div
         style={{
