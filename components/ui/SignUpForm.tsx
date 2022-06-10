@@ -47,6 +47,7 @@ export const SignUpForm = () => {
     });
     const data = await resp.json();
     if (data.success) {
+      setMessage(data.message);
       setSnackBarStatus('success');
       router.push('/sign-in');
     } else {
@@ -139,7 +140,10 @@ export const SignUpForm = () => {
         <Button
           fullWidth
           variant={'contained'}
-          style={{ borderRadius: '50px', padding: '12px 0' }}
+          style={{
+            borderRadius: '50px', padding: '12px 0',
+            backgroundColor: !validForm() ? '#4a148c' : ''
+          }}
           onClick={registerUser}
           disabled={validForm()}
         >

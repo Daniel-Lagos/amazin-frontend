@@ -127,7 +127,10 @@ export const SignInForm = () => {
         <Button
           fullWidth
           variant={'contained'}
-          style={{ borderRadius: '50px', padding: '12px 0' }}
+          style={{
+            borderRadius: '50px', padding: '12px 0',
+            backgroundColor: !validForm() ? '#4a148c' : ''
+          }}
           onClick={loginUser}
           disabled={validForm()}
         >
