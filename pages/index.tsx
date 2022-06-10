@@ -1,85 +1,71 @@
-import type { NextPage } from 'next';
-import Head from 'next/head';
-import Image from 'next/image';
-import styles from '../styles/Home.module.css';
+import type { GetServerSideProps, NextPage } from 'next';
 import { Layout } from '../components/layouts';
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import { useSessionContext } from '../context/SessionProvider';
 import { TableProduct } from '../components/ui/';
 
-const Home: NextPage = () => {
-  const router = useRouter();
-  const { isLogin, setIsLogin } = useSessionContext();
+// @ts-ignore
+const Home: NextPage = ({ session }) => {
 
-  useEffect(() => {
+  // When rendering client side don't display anything until loading is complete
 
-    const validSession = async () => {
-      const resp = await fetch(`${process.env.BACKEND_URL}auth/renew`, {
-        headers: {
-          'x-token': `${sessionStorage.getItem('token')}`,
-        }
-      });
-      const data = await resp.json();
-      console.log(data)
-      if (data.success) {
-        setIsLogin(false);
-      } else {
-        setIsLogin(true);
-      }
-    };
-    validSession().catch(e => console.log(e));
-  }, [isLogin, router, setIsLogin]);
+  // If no session exists, display access denied message
+
 
   return (
-    <Layout title={'home'}>
-      <div className="w-full max-w-3xl p-3 m-auto bg-white rounded-md shadow-md  mt-5 dark:bg-gray-800">
+    <Layout title={'home'} withBackground={false}>
+      <div
+        className="w-full max-w-3xl p-3 m-auto bg-white rounded-md shadow-md  mt-5 dark:bg-gray-800">
 
         <form>
           <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
 
-            <div className='mt-3'>
-              <label className="block text-md text-gray-900 font-medium dark:text-gray-200">Codigo</label>
+            <div className="mt-3">
+              <label
+                className="block text-md text-gray-900 font-medium dark:text-gray-200">Codigo</label>
               <input
                 name="code"
                 type="text"
                 className="block w-full px-4 py-2 mt-1 text-gray-700 bg-white border rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                placeholder='132AFG'
+                placeholder="132AFG"
               />
             </div>
 
-            <div className='mt-3'>
-              <label className="block text-md text-gray-900 font-medium dark:text-gray-200">Nombre Producto</label>
+            <div className="mt-3">
+              <label
+                className="block text-md text-gray-900 font-medium dark:text-gray-200">Nombre
+                Producto</label>
               <input
-                name='nameProduct'
+                name="nameProduct"
                 type="text"
                 className="block w-full px-4 py-2 mt-1 text-gray-700 bg-white border rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                placeholder='Arroz'
+                placeholder="Arroz"
               />
             </div>
 
-            <div className='mt-3'>
-              <label className="block text-md text-gray-900 font-medium dark:text-gray-200">Precio</label>
+            <div className="mt-3">
+              <label
+                className="block text-md text-gray-900 font-medium dark:text-gray-200">Precio</label>
               <input
-                name='price'
+                name="price"
                 type="number"
                 className="block w-full px-4 py-2 mt-1 text-gray-700 bg-white border rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                placeholder='12800'
+                placeholder="12800"
               />
             </div>
 
-            <div className='mt-3'>
-              <label className="block text-md text-gray-900 font-medium dark:text-gray-200">Cantidad</label>
+            <div className="mt-3">
+              <label
+                className="block text-md text-gray-900 font-medium dark:text-gray-200">Cantidad</label>
               <input
-                name='cant'
+                name="cant"
                 type="number"
                 className="block w-full px-4 py-2 mt-1 text-gray-700 bg-white border rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                placeholder='20'
+                placeholder="20"
               />
             </div>
 
             <div className="mt-3 w-auto">
-              <label className="block text-md text-gray-900 font-medium dark:text-gray-200">Categoria</label>
+              <label
+                className="block text-md text-gray-900 font-medium dark:text-gray-200">Categoria</label>
               <select className="form-select appearance-none
                   block
                   w-full
@@ -94,10 +80,10 @@ const Home: NextPage = () => {
                   transition
                   ease-in-out
                   m-0
-                  focus:text-gray-700 focus:bg-white 
+                  focus:text-gray-700 focus:bg-white
                   focus:border-blue-600 focus:outline-none"
-                aria-label="Default select example"
-                name='category'
+                      aria-label="Default select example"
+                      name="category"
               >
                 <option>Seleccione la categoria...</option>
                 <option value="PAPELERIA">Papeleria</option>
@@ -110,13 +96,14 @@ const Home: NextPage = () => {
               </select>
             </div>
 
-            <div className='mt-3'>
-              <label className="block text-md text-gray-900 font-medium dark:text-gray-200">Imagen</label>
+            <div className="mt-3">
+              <label
+                className="block text-md text-gray-900 font-medium dark:text-gray-200">Imagen</label>
               <input
                 name={'image'}
                 type={'file'}
                 className="block w-full px-4 py-2 mt-1 text-gray-700 bg-white border rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              //onChange={handleFile}
+                //onChange={handleFile}
               />
             </div>
 
@@ -132,11 +119,20 @@ const Home: NextPage = () => {
         </form>
 
       </div>
-      
-      <TableProduct />
+
+      <TableProduct/>
 
     </Layout>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+
+  return {
+    props: {
+      //session
+    }
+  };
 };
 
 export default Home;

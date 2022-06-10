@@ -4,10 +4,13 @@ import { Navbar } from '../ui';
 
 interface LayoutProps {
   title: string;
-  children: JSX.Element[] | JSX.Element
+  withBackground?: boolean;
+  children: JSX.Element[] | JSX.Element;
 }
 
-export const Layout: FC<LayoutProps> = ({ children,title }) => {
+export const Layout: FC<LayoutProps> = ({
+  children, withBackground = true, title
+}) => {
   return (
     <>
       <Head>
@@ -17,7 +20,9 @@ export const Layout: FC<LayoutProps> = ({ children,title }) => {
         style={{
           objectFit: 'cover',
           backgroundRepeat: 'no-repeat',
-          backgroundImage: 'url(https://images.unsplash.com/photo-1622730000579-e6bde344d6a4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80)',
+          backgroundImage: withBackground
+                           ? 'url(https://images.unsplash.com/photo-1622730000579-e6bde344d6a4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80)'
+                           : '',
           backgroundPosition: 'right'
         }}>
         <Navbar/>
