@@ -1,8 +1,9 @@
 import { Box, Typography } from '@mui/material';
+import { signOut } from 'next-auth/react';
 
 export const Navbar = () => {
   return (
-    <Box >
+    <Box>
       <Box
         maxWidth={'1440px'}
         padding={'10px 24px'}
@@ -18,11 +19,8 @@ export const Navbar = () => {
           <Typography>
             Amazin
           </Typography>
-          <Typography>
-            Home
-          </Typography>
-          <Typography>
-            Join
+          <Typography onClick={() => signOut()} style={{ cursor: 'pointer' }}>
+            Log out
           </Typography>
         </Box>
       </Box>

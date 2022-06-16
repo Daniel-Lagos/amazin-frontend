@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 import { Layout } from '../components/layouts';
 import { Box, Typography } from '@mui/material';
-import { SignInForm } from '../components/ui/';
+import { LogInForm } from '../components/ui/';
 
 
 const SignInPage: NextPage = () => {
@@ -22,7 +22,7 @@ const SignInPage: NextPage = () => {
         <Typography variant={'body1'} py={2}>
           Already A member? Log In
         </Typography>
-        <SignInForm/>
+        <LogInForm/>
       </Box>
     </Layout>
   );

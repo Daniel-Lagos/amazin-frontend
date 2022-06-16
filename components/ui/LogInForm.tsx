@@ -8,13 +8,14 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import { ChangePasswordModal } from './ChangePasswordModal';
 import { emailRegExp as isValidEmail } from '../../utils';
+import { signIn } from 'next-auth/react';
 
 interface formProps {
   password: string,
   email: string,
 }
 
-export const SignInForm = () => {
+export const LogInForm = () => {
   const [form, setForm] = useState<formProps>({
     email: '',
     password: ''
@@ -24,7 +25,6 @@ export const SignInForm = () => {
   const [message, setMessage] = useState('');
   const [touched, setTouched] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const router = useRouter();
   let isValidForm = true;
 
   //TODO: validate route
@@ -37,29 +37,10 @@ export const SignInForm = () => {
   };
 
   const loginUser = async () => {
-
-
-    const resp = await fetch(`${process.env.BACKEND_URL}auth/sign-in`, {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(form),
-      method: 'POST'
+    await signIn('credentials', {
+      ...form,
+      callbackUrl: `${window.location.origin}/`,
     });
-    const data = await resp.json();
-    if (data.success) {
-      if (data?.user?.firstLogin) {
-        setShowModal(true);
-      } else {
-        setSnackBarStatus('success');
-        router.push('/');
-      }
-    } else {
-      setSnackBarStatus('error');
-      setMessage(data.message);
-    }
-    sessionStorage.setItem('token', data.token);
-    setOpen(true);
   };
 
   const handleClose = () => {

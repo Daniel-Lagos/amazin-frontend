@@ -5,12 +5,14 @@ import { darkTheme } from '../themes';
 import { SessionProvider } from 'next-auth/react';
 import { lightTheme } from '../themes/light-theme';
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
-      <ThemeProvider theme={lightTheme}>
+    <ThemeProvider theme={lightTheme}>
+      <SessionProvider session={session}>
         <CssBaseline/>
         <Component {...pageProps} />
-      </ThemeProvider>
+      </SessionProvider>
+    </ThemeProvider>
   );
 }
 

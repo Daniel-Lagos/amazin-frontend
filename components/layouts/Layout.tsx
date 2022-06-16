@@ -5,11 +5,12 @@ import { Navbar } from '../ui';
 interface LayoutProps {
   title: string;
   withBackground?: boolean;
+  withMenu?: boolean;
   children: JSX.Element[] | JSX.Element;
 }
 
 export const Layout: FC<LayoutProps> = ({
-  children, withBackground = true, title
+  children, withBackground = true, title, withMenu = true
 }) => {
   return (
     <>
@@ -25,7 +26,9 @@ export const Layout: FC<LayoutProps> = ({
                            : '',
           backgroundPosition: 'right'
         }}>
-        <Navbar/>
+        {
+          withMenu && (<Navbar/>)
+        }
         <main
           style={{
             width: '1440px',

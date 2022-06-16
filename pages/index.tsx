@@ -1,13 +1,44 @@
-import type { GetServerSideProps, NextPage } from 'next';
+import type { NextPage } from 'next';
 import { Layout } from '../components/layouts';
 import { TableProduct } from '../components/ui/';
+import { useSession } from 'next-auth/react';
+import AccessDenied from '../components/ui/AccessDenied';
+import { Skeleton } from '@mui/material';
+import { useEffect, useState } from 'react';
 
 // @ts-ignore
-const Home: NextPage = ({ session }) => {
+const Home: NextPage = () => {
+  const { data: session, status } = useSession();
+  const [isValidToken, setIsValidToken] = useState(false);
+  console.log(session);
 
-  // When rendering client side don't display anything until loading is complete
 
-  // If no session exists, display access denied message
+  useEffect(() => {
+    const verifyToken = async () => {
+
+      const tokenResponse = await fetch(
+        `${process.env.BACKEND_URL}auth/validate-jwt`, {
+          headers: {
+            'Content-Type': 'application/json',
+            'x-token': session?.token as string || '',
+          },
+        });
+      const dataToken = await tokenResponse.json();
+      if (dataToken.success) {
+        setIsValidToken(true);
+      }
+    };
+    verifyToken();
+    console.log('useEffect')
+  }, [session]);
+
+  if (status === 'loading') {
+    return <Skeleton variant="rectangular" width={210} height={118}/>;
+  }
+
+  if (!session && !isValidToken) {
+    return (<AccessDenied/>);
+  }
 
 
   return (
@@ -124,15 +155,6 @@ const Home: NextPage = ({ session }) => {
 
     </Layout>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-
-  return {
-    props: {
-      //session
-    }
-  };
 };
 
 export default Home;

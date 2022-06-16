@@ -125,7 +125,7 @@ export const SignUpForm = () => {
         />
       </Grid>
       <Grid item xs={6}>
-        <Link href={'/sign-in'} passHref>
+        <Link href={'/log-in'} passHref>
           <Button
             fullWidth
             variant={'contained'}
