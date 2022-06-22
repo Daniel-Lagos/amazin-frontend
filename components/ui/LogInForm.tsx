@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from 'react';
 import Link from 'next/link';
 import {
-  Alert, AlertColor, Button, Grid, Snackbar, TextField
+  Alert, AlertColor, Button, Grid, Snackbar, TextField, Typography
 } from '@mui/material';
 import { useRouter } from 'next/router';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
@@ -9,6 +9,7 @@ import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import { ChangePasswordModal } from './ChangePasswordModal';
 import { emailRegExp as isValidEmail } from '../../utils';
 import { signIn } from 'next-auth/react';
+import { ForgotPassword } from './ForgotPassword';
 
 interface formProps {
   password: string,
@@ -22,9 +23,11 @@ export const LogInForm = () => {
   });
   const [snackBarStatus, setSnackBarStatus] = useState<AlertColor>('success');
   const [open, setOpen] = useState(false);
+  const [openPassword, setOpenPassword] = useState(false);
   const [message, setMessage] = useState('');
   const [touched, setTouched] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   let isValidForm = true;
 
   //TODO: validate route
@@ -45,6 +48,13 @@ export const LogInForm = () => {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const changeVisibility = () => {
+    const passwordinput = document.getElementById('password');
+    const type = passwordinput?.getAttribute('type')
+                 === 'password' ? 'text' : 'password';
+    passwordinput?.setAttribute('type', type);
   };
 
   const validForm = (): boolean => {
@@ -78,6 +88,7 @@ export const LogInForm = () => {
       </Grid>
       <Grid item xs={12}>
         <TextField
+          id={'password'}
           type={'password'}
           // type={'text'}
           placeholder={'Password'}
@@ -87,11 +98,18 @@ export const LogInForm = () => {
           error={form.password.length <= 0 && touched}
           name={'password'}
           InputProps={{
-            endAdornment: <VisibilityOutlinedIcon/>
+            endAdornment: <VisibilityOutlinedIcon onClick={changeVisibility}
+                                                  style={{ cursor: 'pointer' }}/>
           }}
           onBlur={() => setTouched(true)}
           onChange={handlerForm}
         />
+        {
+          //TODO: create modal for send email
+        }
+        <Typography pt={2} style={{cursor: 'pointer'}} onClick={()=>{setOpenPassword(true)}}>
+          Forgot your password?
+        </Typography>
       </Grid>
       <Grid item xs={6}>
         <Link href={'/sign-up'} passHref>
@@ -132,6 +150,7 @@ export const LogInForm = () => {
       </Snackbar>
       <ChangePasswordModal open={showModal} setOpen={setShowModal}
                            email={form.email}/>
+      <ForgotPassword open={openPassword} setOpen={setOpenPassword}/>
     </Grid>
   );
 };

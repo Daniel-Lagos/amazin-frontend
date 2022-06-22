@@ -68,12 +68,12 @@ export default NextAuth({
   secret: 'test',
   session: {
     strategy: 'jwt' as SessionStrategy,
-    maxAge: 5
+    maxAge: 300
   },
   jwt: {
     secret: 'test',
     // encryption: true
-    maxAge: 5,
+    maxAge: 300,
   },
   pages: {
     signIn: '/log-in',
