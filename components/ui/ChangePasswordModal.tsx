@@ -57,6 +57,13 @@ export const ChangePasswordModal: FC<Props> = ({ open, setOpen, email }) => {
     });
   };
 
+  const changeVisibility = () => {
+    const passwordinput = document.getElementById('change-password');
+    const type = passwordinput?.getAttribute('type')
+                 === 'password' ? 'text' : 'password';
+    passwordinput?.setAttribute('type', type);
+  };
+
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>Change Password</DialogTitle>
@@ -65,6 +72,7 @@ export const ChangePasswordModal: FC<Props> = ({ open, setOpen, email }) => {
           change you password
         </DialogContentText>
         <TextField
+          id={'change-password'}
           margin={'normal'}
           type={'password'}
           placeholder={'Password'}
@@ -74,7 +82,7 @@ export const ChangePasswordModal: FC<Props> = ({ open, setOpen, email }) => {
           error={!isValidPassword.test(form.password) && touched}
           name={'password'}
           InputProps={{
-            endAdornment: <VisibilityOutlinedIcon/>
+            endAdornment: <VisibilityOutlinedIcon onClick={changeVisibility}/>
           }}
           onBlur={() => setTouched(true)}
           onChange={handlerPassword}
