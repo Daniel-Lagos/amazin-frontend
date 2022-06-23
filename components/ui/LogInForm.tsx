@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   Alert, AlertColor, Button, Grid, Snackbar, TextField, Typography
@@ -8,7 +8,7 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import { ChangePasswordModal } from './ChangePasswordModal';
 import { emailRegExp as isValidEmail } from '../../utils';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { ForgotPassword } from './ForgotPassword';
 
 interface formProps {
@@ -17,6 +17,8 @@ interface formProps {
 }
 
 export const LogInForm = () => {
+  const { data: session } = useSession();
+  const router = useRouter();
   const [form, setForm] = useState<formProps>({
     email: '',
     password: ''
@@ -42,9 +44,18 @@ export const LogInForm = () => {
   const loginUser = async () => {
     await signIn('credentials', {
       ...form,
-      callbackUrl: `${window.location.origin}/`,
+      //  callbackUrl: showModal ? `${window.location.origin}/` : '',
     });
   };
+
+  useEffect(() => {
+    if (session?.user?.image) {
+      setShowModal(true);
+    } else if (session && !session?.user?.image) {
+      router.push('/');
+    }
+  }, [router, session, session?.user?.image]);
+
 
   const handleClose = () => {
     setOpen(false);
@@ -107,7 +118,9 @@ export const LogInForm = () => {
         {
           //TODO: create modal for send email
         }
-        <Typography pt={2} style={{cursor: 'pointer'}} onClick={()=>{setOpenPassword(true)}}>
+        <Typography pt={2} style={{ cursor: 'pointer' }} onClick={() => {
+          setOpenPassword(true);
+        }}>
           Forgot your password?
         </Typography>
       </Grid>
@@ -149,7 +162,7 @@ export const LogInForm = () => {
         </Alert>
       </Snackbar>
       <ChangePasswordModal open={showModal} setOpen={setShowModal}
-                           email={form.email}/>
+                           email={session?.user?.email || ''}/>
       <ForgotPassword open={openPassword} setOpen={setOpenPassword}/>
     </Grid>
   );

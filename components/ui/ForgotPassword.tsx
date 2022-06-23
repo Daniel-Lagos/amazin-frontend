@@ -5,7 +5,6 @@ import {
   Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
   TextField
 } from '@mui/material';
-import { useRouter } from 'next/router';
 
 interface Props {
   open: boolean,
@@ -37,6 +36,7 @@ export const ForgotPassword: FC<Props> = ({ open, setOpen }) => {
       });
     const data = await resp.json();
     setMessage(data.message);
+    setShowMessage(true);
   };
 
   const handlerEmail = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -71,10 +71,14 @@ export const ForgotPassword: FC<Props> = ({ open, setOpen }) => {
           send Email
         </Button>
       </DialogActions>
-      <Alert onClose={handleClose} severity={'warning'} style={{zIndex: 99}}
-             sx={{ width: '100%' }}>
-        {message}
-      </Alert>
+      {
+        showMessage && (
+          <Alert onClose={handleClose} severity={'warning'}
+                 style={{ zIndex: 99 }} sx={{ width: '100%' }}>
+            {message}
+          </Alert>
+        )
+      }
     </Dialog>
   </>);
 };

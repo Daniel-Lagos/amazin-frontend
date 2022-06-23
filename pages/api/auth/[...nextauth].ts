@@ -45,7 +45,8 @@ export default NextAuth({
         return {
           email: credentials.email,
           user: data.user,
-          token: data.token
+          token: data.token,
+          image: data.user.firstLogin
         };
       }
     })
@@ -68,12 +69,12 @@ export default NextAuth({
   secret: 'test',
   session: {
     strategy: 'jwt' as SessionStrategy,
-    maxAge: 300
+    maxAge: 30
   },
   jwt: {
     secret: 'test',
     // encryption: true
-    maxAge: 300,
+    maxAge: 30,
   },
   pages: {
     signIn: '/log-in',

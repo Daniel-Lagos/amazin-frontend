@@ -7,7 +7,7 @@ import { LogInForm } from '../components/ui/';
 const SignInPage: NextPage = () => {
 
   return (
-    <Layout title={'login'}>
+    <Layout title={'login'} withMenu={false}>
       <Box display={'flex'} flexDirection={'column'} height={'100%'}
            justifyContent={'center'}>
         <Typography variant={'body1'} py={2} fontWeight={'bold'}>

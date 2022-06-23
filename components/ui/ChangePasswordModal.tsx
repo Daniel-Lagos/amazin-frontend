@@ -42,7 +42,7 @@ export const ChangePasswordModal: FC<Props> = ({ open, setOpen, email }) => {
         body: JSON.stringify({ newPassword: form.password }),
         method: 'PATCH'
       });
-    const data = await resp.json();
+    const data = await resp.json().catch(e=>console.log(e));
     if (data.success) {
       sessionStorage.setItem('token', data.token);
       router.push('/');

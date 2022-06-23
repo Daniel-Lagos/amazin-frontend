@@ -10,7 +10,6 @@ import { useEffect, useState } from 'react';
 const Home: NextPage = () => {
   const { data: session, status } = useSession();
   const [isValidToken, setIsValidToken] = useState(false);
-  console.log(session);
 
 
   useEffect(() => {
@@ -29,7 +28,6 @@ const Home: NextPage = () => {
       }
     };
     verifyToken();
-    console.log('useEffect')
   }, [session]);
 
   if (status === 'loading') {
