@@ -47,7 +47,7 @@ const BlockedUsersPage: NextPage = () => {
 
 
   return (
-    <Layout title={'blocked-users'}>
+    <Layout title={'blocked-users'} withMenu={false}>
       <Box display={'flex'} flexDirection={'column'} height={'100%'}
         justifyContent={'center'}>
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
