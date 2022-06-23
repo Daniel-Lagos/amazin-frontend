@@ -29,21 +29,19 @@ const BlockedUsersPage: NextPage = () => {
   const router = useRouter();
 
   useEffect(() => {
+    const getUsers = async () => {
+      await fetch(`${process.env.BACKEND_URL}admin/users-blocked`)
+        .then(res => res.json())
+        .then(data => {
+          const { users } = data;
+          setUsers(users)
+        })
+    }
     getUsers()
-  }, [])
-
-  const getUsers = async () => {
-    await fetch(`${process.env.BACKEND_URL}admin/users-blocked`)
-      .then(res => res.json())
-      .then(data => {
-        const { users } = data;
-        setUsers(users)
-      })
-  }
+  }, [users,setUsers])
 
   const handleClose = () => {
     setOpen(false);
-    window.location.reload
   };
 
 
